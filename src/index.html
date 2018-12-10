@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>一起画图</title>
+  <link rel="stylesheet" type="text/css" href="https://at.alicdn.com/t/font_957804_zgwg374s5vn.css">
+  <script type="text/javascript" src="//at.alicdn.com/t/font_957804_zgwg374s5vn.js"></script>
+    <!-- <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CKYIEK7E&placement=fabricjscom" id="_carbonads_js"></script> -->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/2.4.4/fabric.min.js"></script> -->
+<style type="text/css">
+		*{padding: 0;margin: 0;}
+		.flex{
+		  display: flex;
+		}
+		.icon {
+			width: 1em; height: 1em;
+			vertical-align: -0.15em;
+			fill: currentColor;
+			overflow: hidden;
+		}
+		body{
+		  background-color: #d0d9e8;
+		  overflow-x: hidden;
+		}
+
+
+        @keyframes masked-animation {
+            0% {
+                background-position: 0  0;
+            }
+            100% {
+                background-position: -100%  0;
+            }
+        }
+
+		.handleBox{
+			background-color: #f5f6f7;
+			color: #999;
+			padding: 10px;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			cursor:pointer;
+		}
+		.handleBox .title{
+            width: 100px;
+            background-image: -webkit-linear-gradient(left,blue,#66ffff 10%,#cc00ff 20%,#CC00CC 30%, #CCCCFF 40%, #00FFFF 50%,#CCCCFF 60%,#CC00CC 70%,#CC00FF 80%,#66FFFF 90%,blue 100%);
+            -webkit-text-fill-color: transparent;/* 将字体设置成透明色 */
+            -webkit-background-clip: text;/* 裁剪背景图，使文字作为裁剪区域向外裁剪 */
+            -webkit-background-size: 200% 100%; 
+            -webkit-animation: masked-animation 4s linear infinite;
+		}
+		.handleBox>div{
+			margin-right: 20px;
+		}
+		.handleBox>div p{
+			text-align: center;
+			font-size: 10px;
+			margin-top: 10px;
+		}	
+		.handleBox .shapeBox .iconfont{
+			border: 1px solid rgba(55, 50, 4, .1);
+			padding: 5px;
+			border-radius: 2px;
+		}
+		.handleBox .ColorSelectBox{
+			position: relative;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		.handleBox .ColorSelectBox svg{
+			position: relative;
+			left: 2px;
+		}
+		.handleBox .showSelectColorDom{
+		    border-bottom-width: 2px;
+		    border-style: solid;
+		    border-top-width: 0px;
+		    border-left-width: 0px;
+		    border-right-width: 0px;
+	    }
+		.handleBox .ColorSelectBox .ColorSelectDom{
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+		}
+		.canvasBox{
+			margin: 5px 5px 0px 5px;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="flex handleBox" id="handleFather">
+		<div class="title">
+			<div>一起画^_^</div>
+		</div>
+		<div data-type="pen">
+			<i data-type="pen" class="iconfont icon-gangbi1"></i>
+			<p data-type="pen">画笔</p>
+		</div>
+		<div data-type="remove">
+			<i data-type="remove" class="iconfont icon-gangbi"></i>
+			<p data-type="remove">笔擦</p>
+		</div>
+		<div class="shapeBox">
+			<div>
+				<i data-type="line" class="iconfont icon-zhixian"></i>
+				<i data-type="rectangle" class="iconfont icon-zhengfangxing1"></i>
+			</div>
+			<p>形状</p>
+		</div>
+		<div>
+			<i class="iconfont icon-cuxixiantiao"></i>
+			<p>粗细</p>
+		</div>
+		<div class="ColorSelectBox">
+			<!-- <i class="iconfont icon-yanse"></i> -->
+			<svg class="icon" aria-hidden="true">
+				<use xlink:href="#icon--"></use>
+			</svg>
+			<p id="showSelectColorDom" class="showSelectColorDom">颜色</p>
+			<input type="color" class="ColorSelectDom" id="ColorSelectDom" />
+		</div>
+	</div>
+	<div class="canvasBox">
+        <canvas id="c" width="800" height="540">请使用支持HTML5的浏览器</canvas>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- <script src="http://fabricjs.com/lib/fabric.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/1.7.22/fabric.min.js"></script>
+    <!-- <script src="http://fabricjs.com/js/master.js"></script> -->
+  </head>
+  <body>
+<!-- <script async defer src="https://buttons.github.io/buttons.js"></script> -->
+
+  <div style="position: relative">
+    <canvas id="canvas" width="500" height="250"></canvas>
+  </div>
+
+  <script>
+  	var canvas = new fabric.Canvas('canvas');
+
+var rect = new fabric.Rect({
+    top : 100,
+    left : 100,
+    width : 60,
+    height : 70,
+    fill : 'red'
+});
+
+canvas.add(rect);
+
+
+    // (function(){
+    //   fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
+    //   fabric.Object.prototype.transparentCorners = false;
+
+    //   var canvas = this.__canvas = new fabric.Canvas('canvas');
+
+    //   // simple shapes
+    //   var rect = new fabric.Rect({ width: 80, height: 60, left: 100, top: 100, fill: '#f55', strokeWidth: 0 })
+    //   var circle = new fabric.Circle({ radius: 30, left: 50, top: 50, fill: 'rgb(50, 205, 50)', strokeWidth: 0 });
+    //   var triangle = new fabric.Triangle({ width: 80, height: 80, left: 150, top: 130, fill: '#55f', strokeWidth: 0 });
+
+    //   canvas.add(triangle, rect, circle);
+
+
+
+    // })()
+
+    // window.onscroll = function() {
+    //   if (typeof __image === 'undefined') return;
+    //   // animate();
+    //   window.onscroll = null;
+    // };
+
+  </script>
+
+
+  </body>
+</html>
