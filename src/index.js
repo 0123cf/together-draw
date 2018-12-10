@@ -100,7 +100,7 @@ let backgroundColor = 'white'
 			   // 打开自由绘画
 			  canvas.isDrawingMode = true
 			}else{
-			  // 关闭自由绘画（出了pen， 其他都可以关闭）
+			  // 关闭自由绘画（除了画笔，其他都可以关闭）
 			  canvas.isDrawingMode = false
 			  // 橡皮擦操作
 			  if (drawType == 'remove') {

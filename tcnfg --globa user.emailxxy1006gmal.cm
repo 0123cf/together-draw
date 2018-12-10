@@ -1,0 +1,26 @@
+[33mcommit 44b83cf9c50133fae61a7a1c0546ca96849110fa[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Xie Xiu Yue <abc_xf@126.com>
+Date:   Mon Dec 10 22:05:52 2018 +0800
+
+    fix: abnormal line size
+
+[1mdiff --git a/src/index.js b/src/index.js[m
+[1mindex 67b7ac4..1cca50b 100644[m
+[1m--- a/src/index.js[m
+[1m+++ b/src/index.js[m
+[36m@@ -126,6 +126,7 @@[m [mlet backgroundColor = 'white'[m
+   	if(linesize){[m
+   		lineSelectDom.style.display = 'none'[m
+ 	    canvas.freeDrawingBrush.width = linesize[m
+[32m+[m	[32m    drawWidth = +linesize[m
+ 	    lineWidthDom.style.height = linesize + 'px'[m
+   	}[m
+   	// 保存图片[m
+[36m@@ -141,6 +142,7 @@[m [mlet backgroundColor = 'white'[m
+   //绘画方法[m
+   function drawing() {[m
+     // console.log(drawType)[m
+[32m+[m[32m    // console.log(drawWidth)[m
+     if(drawType == 'handle'){[m
+     	return[m
+     }[m
