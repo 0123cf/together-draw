@@ -126,6 +126,7 @@ let backgroundColor = 'white'
   	if(linesize){
   		lineSelectDom.style.display = 'none'
 	    canvas.freeDrawingBrush.width = linesize
+	    drawWidth = +linesize
 	    lineWidthDom.style.height = linesize + 'px'
   	}
   	// 保存图片
@@ -141,6 +142,7 @@ let backgroundColor = 'white'
   //绘画方法
   function drawing() {
     // console.log(drawType)
+    // console.log(drawWidth)
     if(drawType == 'handle'){
     	return
     }
