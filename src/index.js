@@ -1,27 +1,28 @@
-// TODO 图层操作   旋转操作    粗细操作   保存整个图片操作
+// TODO 工具栏激活状态
 if (process.env.NODE_ENV !== 'production') {
   require('./index.html')
 }
 const fabric = require('fabric').fabric
-
+const {SaveImage} = require('./saveImage')
 // console.log(fabric)
 let backgroundColor = 'white'
 
 
 ;(function () {
-  let mouseFrom = {},
+  let canvasId = 'c',
+    mouseFrom = {},
     mouseTo = {},
     drawType = null,
     textbox = null,
     drawWidth = 2, //笔触默认宽度
-    color = "#000", //画笔默认颜色
+    color = '#000', //画笔默认颜色
     drawingObject = null, //当前绘制对象
     moveCount = 1, //绘制移动计数器
     doDrawing = false, // 绘制状态
     zoom = 1
 
   //初始化画板
-  let canvas = new fabric.Canvas("c", {
+  let canvas = new fabric.Canvas(canvasId, {
   	// 打开自由绘画
     isDrawingMode: true,
     skipTargetFind: true,
@@ -29,19 +30,6 @@ let backgroundColor = 'white'
     selection: false,
     backgroundColor
   })
-
-  // create a rectangle object
-// var rect = new fabric.Rect({
-//   left: 100,
-//   top: 100,
-//   fill: 'red',
-//   width: 20,
-//   height: 20
-// });
-
-// // "add" rectangle onto canvas
-// canvas.add(rect);
-// return
 
   //坐标转换
   const transformMouse = (mouseX, mouseY) => ({x: mouseX / zoom, y: mouseY / zoom}) 
@@ -104,7 +92,7 @@ let backgroundColor = 'white'
 
   // 选择操作
   handleFather.onclick = (e) => {
-  	let {type, linesize} = e.target.dataset
+  	let {type, linesize, handle} = e.target.dataset
   	if(type){
 			drawType = type
 			// console.log(drawType)
@@ -139,6 +127,10 @@ let backgroundColor = 'white'
   		lineSelectDom.style.display = 'none'
 	    canvas.freeDrawingBrush.width = linesize
 	    lineWidthDom.style.height = linesize + 'px'
+  	}
+  	// 保存图片
+  	if(handle == 'saveimage'){
+  		SaveImage(document.querySelector(`#${canvasId}`).toDataURL("image/png"))
   	}
   }
 
