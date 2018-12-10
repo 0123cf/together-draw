@@ -22,12 +22,26 @@ let backgroundColor = 'white'
 
   //初始化画板
   let canvas = new fabric.Canvas("c", {
+  	// 打开自由绘画
     isDrawingMode: true,
     skipTargetFind: true,
     selectable: false,
     selection: false,
     backgroundColor
   })
+
+  // create a rectangle object
+// var rect = new fabric.Rect({
+//   left: 100,
+//   top: 100,
+//   fill: 'red',
+//   width: 20,
+//   height: 20
+// });
+
+// // "add" rectangle onto canvas
+// canvas.add(rect);
+// return
 
   //坐标转换
   const transformMouse = (mouseX, mouseY) => ({x: mouseX / zoom, y: mouseY / zoom}) 
@@ -72,19 +86,20 @@ let backgroundColor = 'white'
   })
 
   canvas.on("selection:created", function (e) {
-  	// console.log(e.target)
-    //多选删除
-    if (e.target._objects) {
-      var etCount = e.target._objects.length
-      for (var etindex = 0; etindex < etCount; etindex++) {
-        canvas.remove(e.target._objects[etindex])
-      }
-    //单选删除
-    } else {
-      canvas.remove(e.target)
-    }
-    //取消选中框
-    canvas.discardActiveObject() 
+  	if(drawType == 'remove'){
+	    //多选删除
+	    if (e.target._objects) {
+	      var etCount = e.target._objects.length
+	      for (var etindex = 0; etindex < etCount; etindex++) {
+	        canvas.remove(e.target._objects[etindex])
+	      }
+	    //单选删除
+	    } else {
+	      canvas.remove(e.target)
+	    }
+	    //取消选中框
+	    canvas.discardActiveObject() 
+	  }
   })
 
   // 选择操作
@@ -93,24 +108,30 @@ let backgroundColor = 'white'
   	if(type){
 			drawType = type
 			// console.log(drawType)
-			if (drawType == "pen") {
+			if (drawType == 'pen') {
 			   // 打开自由绘画
 			  canvas.isDrawingMode = true
 			}else{
 			  // 关闭自由绘画（出了pen， 其他都可以关闭）
 			  canvas.isDrawingMode = false
 			  // 橡皮擦操作
-			  if (drawType == "remove") {
+			  if (drawType == 'remove') {
 			  	// 开启选中
 			    canvas.selection = true
 			    canvas.skipTargetFind = false
 			    canvas.selectable = true
 			  // 其他操作
 			  }else{
-			  	 //图层不能选中
-			  	canvas.skipTargetFind = true
-			  	 //画板不显示选中
-			    canvas.selection = false
+			  	if(drawType == 'handle'){
+			  	 	canvas.skipTargetFind = false
+				    canvas.selection = true
+			    	canvas.selectable = true
+			  	}else{
+				  	 //图层不能选中
+				  	canvas.skipTargetFind = true
+				  	 //画板不显示选中
+				    canvas.selection = false
+			  	}
 			  }
 			}
   	}
@@ -128,6 +149,9 @@ let backgroundColor = 'white'
   //绘画方法
   function drawing() {
     // console.log(drawType)
+    if(drawType == 'handle'){
+    	return
+    }
     if (drawingObject) {
       canvas.remove(drawingObject)
     }
