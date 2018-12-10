@@ -36,6 +36,7 @@
 			background-color: #f5f6f7;
 			color: #999;
 			padding: 10px;
+			padding-bottom: 15px;
 			-webkit-touch-callout: none;
 			-webkit-user-select: none;
 			-khtml-user-select: none;
@@ -53,6 +54,7 @@
             -webkit-animation: masked-animation 4s linear infinite;
 		}
 		.handleBox>div{
+			position: relative;
 			margin-right: 20px;
 		}
 		.handleBox>div p{
@@ -90,6 +92,54 @@
 			height: 100%;
 			opacity: 0;
 		}
+		.handleBox .lineSelectBox{    
+			display: none;
+			position: absolute;
+		    top: 0px;
+		    right: 0px;
+		    z-index: 9;
+		    background: #fff;
+		    box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.1);
+		    padding: 16px 15px;
+		}
+		.handleBox .lineSelectBox > div {
+			width: 70px;
+			background-color: #000;
+			margin-bottom: 4px;
+			border: 5px solid #fff;
+		}
+		.handleBox .lineSelectBox > div:nth-child(1){ height: 2px; }
+		.handleBox .lineSelectBox > div:nth-child(2){ height: 3px; }
+		.handleBox .lineSelectBox > div:nth-child(3){ height: 4px; }
+		.handleBox .lineSelectBox > div:nth-child(4){ height: 5px; }
+		.handleBox .lineSelectBox > div:nth-child(5){ height: 6px; margin-bottom: 0px;}
+		.handleBox .lineSizeShow{
+			position: relative;
+		}
+		.handleBox .lineSizeShow div{
+			position: absolute;
+			top: 0px;
+			left: -5px;
+			width: 30px;
+			height: 2px;
+			padding-top: 2px;
+			padding-bottom: 2px;
+			border: 1px solid rgba(0, 0, 0, .3);
+		}
+		.handleBox .lineSizeShow div:after{
+			content: "";
+			display: block;
+			position: absolute;
+			width: 20px;
+			height: inherit;
+			background-color: #000;
+			top: 0px;
+			right: 0px;
+			bottom: 0px;
+			top: 0px;
+			left: 0px;
+			margin: auto;
+		}
 		.canvasBox{
 			margin: 5px 5px 0px 5px;
 		}
@@ -116,9 +166,21 @@
 			</div>
 			<p>形状</p>
 		</div>
-		<div>
+		<div id="lineSelectBoxDom">
 			<i class="iconfont icon-cuxixiantiao"></i>
 			<p>粗细</p>
+			<div style="position: relative;">
+				<div class="lineSelectBox" id="lineSelectDom">
+					<div data-linesize="2"></div>
+					<div data-linesize="3"></div>
+					<div data-linesize="4"></div>
+					<div data-linesize="5"></div>
+					<div data-linesize="6"></div>
+				</div>
+				<!-- TODO 加一个滑动选择粗细度， 加一个数值选择 -->
+			</div>
+			<!-- 粗细展示位置 -->
+			<div class="lineSizeShow"><div id="lineWidthDom"></div></div>
 		</div>
 		<div class="ColorSelectBox">
 			<!-- <i class="iconfont icon-yanse"></i> -->

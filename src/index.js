@@ -35,8 +35,8 @@ let backgroundColor = 'white'
   ColorSelectDom.onchange = function () {
   	let colorVal = this.value
   	canvas.freeDrawingBrush.color = colorVal
-	showSelectColorDom.style.borderColor = colorVal  	
-	color = colorVal
+		showSelectColorDom.style.borderColor = colorVal  	
+		color = colorVal
   }
   showSelectColorDom.style.borderColor = color
   //设置自由绘样式设置
@@ -89,32 +89,40 @@ let backgroundColor = 'white'
 
   // 选择操作
   handleFather.onclick = (e) => {
-  	let type = e.target.dataset.type
-  	if(!type){
-  		return
+  	let {type, linesize} = e.target.dataset
+  	if(type){
+			drawType = type
+			// console.log(drawType)
+			if (drawType == "pen") {
+			   // 打开自由绘画
+			  canvas.isDrawingMode = true
+			}else{
+			  // 关闭自由绘画（出了pen， 其他都可以关闭）
+			  canvas.isDrawingMode = false
+			  // 橡皮擦操作
+			  if (drawType == "remove") {
+			  	// 开启选中
+			    canvas.selection = true
+			    canvas.skipTargetFind = false
+			    canvas.selectable = true
+			  // 其他操作
+			  }else{
+			  	 //图层不能选中
+			  	canvas.skipTargetFind = true
+			  	 //画板不显示选中
+			    canvas.selection = false
+			  }
+			}
   	}
-	drawType = type
-	// console.log(drawType)
-	if (drawType == "pen") {
-	   // 打开自由绘画
-	  canvas.isDrawingMode = true
-	}else{
-	  // 关闭自由绘画（出了pen， 其他都可以关闭）
-	  canvas.isDrawingMode = false
-	  // 橡皮擦操作
-	  if (drawType == "remove") {
-	  	// 开启选中
-	    canvas.selection = true
-	    canvas.skipTargetFind = false
-	    canvas.selectable = true
-	  // 其他操作
-	  }else{
-	  	 //图层不能选中
-	  	canvas.skipTargetFind = true
-	  	 //画板不显示选中
-	    canvas.selection = false
-	  }
-	}
+  	if(linesize){
+  		lineSelectDom.style.display = 'none'
+	    canvas.freeDrawingBrush.width = linesize
+	    lineWidthDom.style.height = linesize + 'px'
+  	}
+  }
+
+  lineSelectBoxDom.onclick = () => {
+  		lineSelectDom.style.display = 'block'
   }
 
   //绘画方法
