@@ -12,13 +12,16 @@ let backgroundColor = 'white'
   let canvasId = 'c',
     mouseFrom = {},
     mouseTo = {},
-    drawType = null,
-    textbox = null,
-    drawWidth = 2, //笔触默认宽度
-    color = '#000', //画笔默认颜色
-    drawingObject = null, //当前绘制对象
-    moveCount = 1, //绘制移动计数器
-    doDrawing = false, // 绘制状态
+    // 绘画默认类型
+    drawType = false,
+    // 绘画默认状态（start, end 绘画结束后不继续绘制，当用户鼠标按下去的时候改变状态）
+    drawStatus = 'start',
+    //画笔默认宽度
+    drawWidth = 2, 
+    //画笔默认颜色
+    color = '#000',
+    //当前绘制对象
+    drawingObject = false,
     zoom = 1
 
   //初始化画板
@@ -47,29 +50,29 @@ let backgroundColor = 'white'
 
   //绑定画板事件
   canvas.on("mouse:down", function (options) {
-    var xy = transformMouse(options.e.offsetX, options.e.offsetY)
-    mouseFrom.x = xy.x
-    mouseFrom.y = xy.y
-    doDrawing = true
+    let {x, y} = transformMouse(options.e.offsetX, options.e.offsetY)
+    mouseFrom.x = x
+    mouseFrom.y = y
+    drawStatus = 'start'
   })
   canvas.on("mouse:up", function (options) {
-    var xy = transformMouse(options.e.offsetX, options.e.offsetY)
-    mouseTo.x = xy.x
-    mouseTo.y = xy.y
+    let {x, y} = transformMouse(options.e.offsetX, options.e.offsetY)
+    mouseTo.x = x
+    mouseTo.y = y
     drawing()
-    drawingObject = null
-    moveCount = 1
-    doDrawing = false
+    // 离开最后一笔绘画状态修改， 保留最后一一个有用的画笔
+    drawingObject = false
+    drawStatus = 'end'
   })
   canvas.on("mouse:move", function (options) {
-    //减少绘制频率
-    if (moveCount % 2 && !doDrawing) {
-      return
-    }
-    moveCount += 1
-    var xy = transformMouse(options.e.offsetX, options.e.offsetY)
-    mouseTo.x = xy.x
-    mouseTo.y = xy.y
+    //减少不必要的计算
+    if(drawType === 'pen' || drawType === 'handle' || !drawType)
+    	return
+    if(drawStatus === 'end')
+    	return
+    let {x, y} = transformMouse(options.e.offsetX, options.e.offsetY)
+    mouseTo.x = x
+    mouseTo.y = y
     drawing()
   })
 
@@ -77,8 +80,8 @@ let backgroundColor = 'white'
   	if(drawType == 'remove'){
 	    //多选删除
 	    if (e.target._objects) {
-	      var etCount = e.target._objects.length
-	      for (var etindex = 0; etindex < etCount; etindex++) {
+	      let etCount = e.target._objects.length
+	      for (let etindex = 0; etindex < etCount; etindex++) {
 	        canvas.remove(e.target._objects[etindex])
 	      }
 	    //单选删除
@@ -141,15 +144,16 @@ let backgroundColor = 'white'
 
   //绘画方法
   function drawing() {
+    let canvasObject = null
     // console.log(drawType)
     // console.log(drawWidth)
     if(drawType == 'handle'){
     	return
     }
+    // 清理历史滑动痕迹
     if (drawingObject) {
       canvas.remove(drawingObject)
     }
-    var canvasObject = null
     switch (drawType) {
       case "line":
         canvasObject = new fabric.Line([mouseFrom.x, mouseFrom.y, mouseTo.x, mouseTo.y], {
@@ -158,9 +162,9 @@ let backgroundColor = 'white'
         })
         break
       case "rectangle":
-	    var left = mouseFrom.x,
-	      top = mouseFrom.y
-        var path =
+	    let left = mouseFrom.x,
+	      top = mouseFrom.y,
+        path =
           "M " +
           mouseFrom.x +
           " " +
