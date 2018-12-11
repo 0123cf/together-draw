@@ -4,9 +4,26 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const fabric = require('fabric').fabric
 const {SaveImage} = require('./saveImage')
-// console.log(fabric)
-let backgroundColor = 'white'
+const {Config} = require('./config.js')
+let canvas
 
+const socket = io.connect(`http://${Config.ws.host}:${Config.ws.port}`)
+
+// 监听绘画新状态
+socket.on('drawListen', (msg) => {
+	// console.log('收到监听， drawListen')
+	// console.log(msg)
+	canvas.loadFromJSON(msg)
+})
+
+// push以修改的状态
+let HandleCanvasUpdate = (canvas) => {
+	// TODO 发送到服务端的话需要做序列号, 需要优化算法（不然这样服务器吃不消啊）
+	let json = JSON.stringify(canvas.toDatalessJSON())
+	// console.log('---json---')
+	// console.log(json)
+	socket.emit('drawPush', json)
+}
 
 ;(function () {
   let canvasId = 'c',
@@ -22,10 +39,11 @@ let backgroundColor = 'white'
     color = '#000',
     //当前绘制对象
     drawingObject = false,
+		backgroundColor = 'white',
     zoom = 1
 
   //初始化画板
-  let canvas = new fabric.Canvas(canvasId, {
+  canvas = new fabric.Canvas(canvasId, {
   	// 打开自由绘画
     isDrawingMode: true,
     skipTargetFind: true,
@@ -63,6 +81,7 @@ let backgroundColor = 'white'
     // 离开最后一笔绘画状态修改， 保留最后一一个有用的画笔
     drawingObject = false
     drawStatus = 'end'
+    HandleCanvasUpdate(canvas)
   })
   canvas.on("mouse:move", function (options) {
     //减少不必要的计算

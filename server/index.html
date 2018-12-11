@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+  </head>
+  <body>
+      <div id="listDom"></div>
+      <input id="m" autocomplete="off" /><button id="s">Send</button>
+  </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+      let list = []
+      let listUpdate = () => {
+        listDom.innerHTML = list.map(e => `<p>${e}</p>`).join('')
+      }
+      var socket = io()
+      s.onclick= () => {
+        socket.emit('chat message', m.value)
+        m.value = ''
+      }
+      socket.on('newMessage', (msg) => {
+        console.log('new msg')
+        console.log(msg)
+        list.push(msg)
+        listUpdate()
+      })
+  </script>
+</html>
