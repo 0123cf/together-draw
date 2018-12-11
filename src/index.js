@@ -9,6 +9,10 @@ let canvas
 
 const socket = io.connect(`http://${Config.ws.host}:${Config.ws.port}`)
 
+const _ = {
+		gapVal: (a, b) => a > b ? a - b : b - a,
+}
+
 // 监听绘画新状态
 socket.on('drawListen', (msg) => {
 	// console.log('收到监听， drawListen')
@@ -181,33 +185,50 @@ let HandleCanvasUpdate = (canvas) => {
         })
         break
       case "rectangle":
-	    let left = mouseFrom.x,
-	      top = mouseFrom.y,
-        path =
-          "M " +
-          mouseFrom.x +
-          " " +
-          mouseFrom.y +
-          " L " +
-          mouseTo.x +
-          " " +
-          mouseFrom.y +
-          " L " +
-          mouseTo.x +
-          " " +
-          mouseTo.y +
-          " L " +
-          mouseFrom.x +
-          " " +
-          mouseTo.y +
-          " L " +
-          mouseFrom.x +
-          " " +
-          mouseFrom.y +
-          " z"
-        canvasObject = new fabric.Path(path, {
-          left: left,
-          top: top,
+	    // let left = mouseFrom.x,
+	    //   top = mouseFrom.y,
+     //    path =
+     //      "M " +
+     //      mouseFrom.x +
+     //      " " +
+     //      mouseFrom.y +
+     //      " L " +
+     //      mouseTo.x +
+     //      " " +
+     //      mouseFrom.y +
+     //      " L " +
+     //      mouseTo.x +
+     //      " " +
+     //      mouseTo.y +
+     //      " L " +
+     //      mouseFrom.x +
+     //      " " +
+     //      mouseTo.y +
+     //      " L " +
+     //      mouseFrom.x +
+     //      " " +
+     //      mouseFrom.y +
+     //      " z"
+     //    canvasObject = new fabric.Path(path, {
+     //      left: left,
+     //      top: top,
+     //      stroke: color,
+     //      strokeWidth: drawWidth,
+     //      fill: 'rgba(0, 0, 0, 0)'
+     //    })
+     		console.log('------')
+     		console.log(mouseFrom)
+     		console.log(mouseTo)
+     		let left = mouseFrom.x,
+            top = mouseFrom.y,
+            width = mouseTo.x - mouseFrom.x,
+            height = mouseTo.y - mouseFrom.y
+
+        canvasObject = new fabric.Rect({
+          left: width > 0 ? left : left + width,
+          top: height > 0 ? top : top + height,
+          width: Math.abs(width),
+          height: Math.abs(height),
           stroke: color,
           strokeWidth: drawWidth,
           fill: 'rgba(0, 0, 0, 0)'
