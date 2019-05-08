@@ -7,22 +7,22 @@ const { SaveImage } = require('./saveImage')
 const { Config } = require('./config.js')
 let canvas
 
-const socket = io.connect(`http://${Config.ws.host}:${Config.ws.port}`)
+// const socket = io.connect(`http://${Config.ws.host}:${Config.ws.port}`)
 
-// 监听绘画新状态
-socket.on('drawListen', (msg) => {
-	// console.log('收到监听， drawListen')
-	// console.log(msg)
-	canvas.loadFromJSON(msg)
-})
+// // 监听绘画新状态
+// socket.on('drawListen', (msg) => {
+// 	// console.log('收到监听， drawListen')
+// 	// console.log(msg)
+// 	canvas.loadFromJSON(msg)
+// })
 
 // push已修改的状态
 let HandleCanvasUpdate = (canvas) => {
-    // TODO 发送到服务端的话需要做序列号, 需要优化算法（不然这样服务器吃不消啊）
-    let json = JSON.stringify(canvas.toDatalessJSON())
-    // console.log('---json---')
-    // console.log(json)
-    socket.emit('drawPush', json)
+    // // TODO 发送到服务端的话需要做序列号, 需要优化算法（不然这样服务器吃不消啊）
+    // let json = JSON.stringify(canvas.toDatalessJSON())
+    // // console.log('---json---')
+    // // console.log(json)
+    // socket.emit('drawPush', json)
 }
 
     ; (function () {
